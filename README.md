@@ -1,13 +1,14 @@
-# Sistema Bancário Simples em Python🏦
-Este é um sistema bancário simples implementado em Python. Ele permite aos usuários realizar operações bancárias básicas, como depositar, sacar e verificar o extrato de uma conta bancária, enquanto também impõe um limite de três saques diários de até 500 reais cada.
+# Sistema Bancário Simples em Python 🏦
+Este é um sistema bancário simples implementado em Python. Ele permite que os usuários cadastrem-se, criem contas correntes e realizem operações básicas em suas contas, como sacar, depositar e ver o extrato.
 
-## Funcionalidades🎰
-💲Depositar: Permite aos usuários depositar dinheiro em sua conta bancária.
+## Funcionalidades🥸
+👨🏻‍💻Cadastro de Usuários: Os usuários podem se cadastrar fornecendo informações como nome, data de nascimento, CPF e endereço.
 
-💸Sacar: Permite aos usuários sacar dinheiro de sua conta bancária, respeitando o limite de três saques diários de até 500 reais cada.
+💳Criação de Contas Correntes: Os usuários podem associar uma conta corrente ao seu perfil, informando o CPF. Cada conta corrente é automaticamente numerada e associada ao usuário.
 
-💰Extrato: Permite aos usuários verificar o saldo atual de sua conta bancária e o número de saques realizados no dia.
+💱Operações Bancárias: Os usuários podem realizar operações básicas em suas contas correntes, como 💸sacar dinheiro, 💲depositar dinheiro e visualizar o 💰extrato da conta.
 
+Interface de Texto: O sistema é acessado por meio de uma interface de texto simples, onde os usuários interagem selecionando opções de um menu.
 ## Requisitos
 Python 3.x
 ### Contribuindo
