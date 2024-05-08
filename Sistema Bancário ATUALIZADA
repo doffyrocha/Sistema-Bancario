@@ -1,0 +1,132 @@
+class Usuario:
+    def __init__(self, nome, data_nascimento, cpf, endereco):
+        self.nome = nome
+        self.data_nascimento = data_nascimento
+        self.cpf = cpf
+        self.endereco = endereco
+
+    def __repr__(self):
+        return f'Usuario(nome={self.nome}, cpf={self.cpf})'
+
+
+class ContaCorrente:
+    numero_conta = 0  # Inicializa o número da conta
+
+    def __init__(self, usuario):
+        ContaCorrente.numero_conta += 1
+        self.agencia = "0001"
+        self.numero = ContaCorrente.numero_conta
+        self.usuario = usuario
+        self.saldo = 0  # Saldo inicial da conta
+        self.saques_realizados = 0
+
+    def depositar(self, valor):
+        if valor > 0:
+            self.saldo += valor
+            print(f'Depósito de R$ {valor} realizado. Novo saldo: R$ {self.saldo}')
+        else:
+            print('Valor inválido para depósito.')
+
+    def sacar(self, valor):
+        if valor > 0:
+            if self.saques_realizados < 3 and valor <= 500:
+                if self.saldo >= valor:
+                    self.saldo -= valor
+                    self.saques_realizados += 1
+                    print(f'Saque de R$ {valor} realizado. Novo saldo: R$ {self.saldo}')
+                else:
+                    print('Saldo insuficiente.')
+            else:
+                print('Limite diário de saques atingido ou valor excede R$ 500.')
+        else:
+            print('Valor inválido para saque.')
+
+    def extrato(self):
+        print(f'Saldo atual: R$ {self.saldo}')
+        print(f'Saques realizados hoje: {self.saques_realizados}')
+
+
+usuarios_cadastrados = []
+contas_correntes = []
+
+
+def cadastrar_usuario():
+    nome = input("Digite o nome do usuário: ")
+    data_nascimento = input("Digite a data de nascimento (formato: DD/MM/AAAA): ")
+    cpf = input("Digite o CPF (apenas números): ")
+    endereco = input("Digite o endereço (formato: logradouro, nro-bairro-cidade/estado): ")
+
+    # Verificar se o CPF já está cadastrado
+    for usuario in usuarios_cadastrados:
+        if usuario.cpf == cpf:
+            print("Erro: Já existe um usuário cadastrado com este CPF.")
+            return
+
+    # Adicionar usuário à lista de usuários cadastrados
+    novo_usuario = Usuario(nome, data_nascimento, cpf, endereco)
+    usuarios_cadastrados.append(novo_usuario)
+    print("Usuário cadastrado com sucesso!")
+    return novo_usuario
+
+
+def cadastrar_conta_corrente(cpf_usuario):
+    for usuario in usuarios_cadastrados:
+        if usuario.cpf == cpf_usuario:
+            nova_conta = ContaCorrente(usuario)
+            contas_correntes.append(nova_conta)
+            print(f'Conta corrente cadastrada com sucesso! Agência: {nova_conta.agencia}, Número: {nova_conta.numero}')
+            return nova_conta
+    else:
+        print("Usuário não encontrado.")
+        return None
+
+
+def menu_principal():
+    while True:
+        print("Bem-vindo ao sistema bancário!")
+        print("Escolha uma opção:")
+        print("1. Sacar")
+        print("2. Depositar")
+        print("3. Extrato")
+        print("4. Criar Usuário")
+        print("5. Criar Conta Corrente")
+        print("6. Sair")
+
+        opcao = input("Escolha uma opção:")
+
+        if opcao == "1":
+            numero_conta = int(input("Digite o número da conta: "))
+            conta = buscar_conta(numero_conta)
+            if conta:
+                valor = float(input("Digite o valor para sacar: "))
+                conta.sacar(valor)
+        elif opcao == "2":
+            numero_conta = int(input("Digite o número da conta: "))
+            conta = buscar_conta(numero_conta)
+            if conta:
+                valor = float(input("Digite o valor para depositar: "))
+                conta.depositar(valor)
+        elif opcao == "3":
+            numero_conta = int(input("Digite o número da conta: "))
+            conta = buscar_conta(numero_conta)
+            if conta:
+                conta.extrato()
+        elif opcao == "4":
+            cadastrar_usuario()
+        elif opcao == "5":
+            cpf = input("Digite o CPF do usuário para criar a conta corrente: ")
+            cadastrar_conta_corrente(cpf)
+        elif opcao == "6":
+            print("Obrigado por utilizar o nosso sistema bancário. Até mais!")
+            break
+        else:
+            print("Opção inválida. Por favor, escolha uma opção válida.")
+
+
+def buscar_conta(numero_conta):
+    for conta in contas_correntes:
+        if conta.numero == numero_conta:
+            return conta
+    print("Conta não encontrada.")
+    return None
+menu_principal()
